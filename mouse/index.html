@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .content {
+            width: 400px;
+            height: 400px;
+            background-color: aqua;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+
+    </div>
+    <script>
+        let time = new Date().valueOf();
+        let X = 0;
+        let Y = 0;
+        var content = document.querySelector('.content');
+
+        content.addEventListener('mousemove', function (e) {
+            let mouseTime = new Date().valueOf();
+            let currentX = e.screenX;
+            let currentY = e.screenY;
+            let timeDiff = mouseTime - time;
+            // 100 为相隔两个事件的触发时间 若大于100 视为暂停移动
+            if (timeDiff < 100) {
+                console.log(Length(currentX, currentY, X, Y) / timeDiff + '像素/微秒');
+            }
+            X = currentX;
+            Y = currentY;
+            time = new Date().valueOf();
+        });
+        // 计算距离
+        function Length(x1, y1, x2, y2) {
+            let dx = Math.abs(x1 - x2);
+            let dy = Math.abs(y1 - y2);
+            return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+        }
+    </script>
+</body>
+
+</html>
