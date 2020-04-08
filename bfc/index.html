@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BFC</title>
+    <style>
+        .box {
+            background-color: rgb(224,206,247);
+            border: 5px solid rebeccapurple;
+            overflow: hidden;
+        }
+        .float {
+            float: left;
+            width: 200px;
+            height: 150px;
+            background-color: white;
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="float">浮动元素</div>
+        <p>这里是个p标签</p>
+    </div>
+</body>
+</html>
