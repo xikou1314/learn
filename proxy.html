@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    function Vue(){
+        this.$data = {
+            a:1
+            
+        };
+        this.el = document.getElementById('app');
+        this._html = '';
+        this.observe(this.$data);
+        this.render();
+    }
+    Vue.prototype.observe= function(obj){
+        var value;
+        var that = this;
+        // 用proxy就不需要for in了，即监听的颗粒度减小了，拿到的信息更多了。
+        this.$data = new Proxy(obj,{
+            get:function(target,key,reveive){
+                return target[key];// 不需要中间变量了
+            },
+            set: function (target, key, newValue,reveive){
+                target[key] = newValue;
+            }
+        })
+    }
+    Vue.prototype.render = function(){
+        // 这里实际复杂的多节，解析模板（template），虚拟dom 转真实dom
+        this._html = this.$data.a;
+        this.el.innerHTML = this._html;
+    }
+    // 只要this.$data改变就会触发试图更新
+    
+    
+    var $vm = new Vue();
+    setTimeout(() => {
+        $vm.$data.a = 1000; //模拟数据更改
+    }, 2000)
+
+  </script>
+</body>
+</html>

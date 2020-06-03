@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var test = 'https://cluster-admin-chn-ee08f451.ibroadlink.com/plugin/000000000000000000000000a9860100/index.html';
+    var reg = /\/plugin\/([0-9a-zA-Z]+)\//ig;
+    console.log(reg.test(test));
+    console.log(RegExp.$1);
+  </script>
+</body>
+</html>
