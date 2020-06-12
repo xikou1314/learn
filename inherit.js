@@ -36,6 +36,7 @@ function Parent2(name) {
 function Child2(name) {
   Parent2.call(this, name);
 }
+
 Child2.prototype = new Parent2();
 var boy2 = new Child2('cc');
 console.log(boy2.name);
@@ -76,8 +77,41 @@ console.log(boy4.age);
 console.log(boy4.name);
 
 // 寄生组合式继承
+function Parent5() {
+  this.name = '张三';
+}
 
-
+// 寄生
+function content2(obj) {
+  function F() {};
+  F.prototype = obj;
+  return new F();
+}
+var con = content2(Parent5.prototype);
+// 组合
+function Sub() {
+  Parent5.call(this);
+}
+Sub.prototype = con;
+con.constructor = Sub;
+var sub1 = new Sub();
+console.log(sub1.name);
 
 
 // class继承
+class Parent6 {  
+  constructor(value) {
+    this.val = value
+  }
+  getValue() {
+    console.log(this.val)
+  }
+}
+class Child6 extends Parent6 {
+  constructor(value) {
+    super(value)
+    this.val = value
+  }
+}
+let child6 = new Child6(1);
+child6.getValue() // 1child instanceof Parent // true
