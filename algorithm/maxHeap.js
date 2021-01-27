@@ -2,6 +2,7 @@ class MaxHeap {
   constructor(arr = []) {
     this.data = arr;
     //heapify方式创建堆结构
+    // 从最后一个开始下沉 创建堆结构
     for (let i = this.parent(arr.length - 1); i >= 0; i--) {
       this.siftDown(i);
     }
@@ -20,27 +21,33 @@ class MaxHeap {
     return (index - 1) / 2 | 0;
     //这是索引从0开始的情况，如果从1开始可以直接index/2向下取整即可
   }
+  // 左孩子
   leftChild(index) {
     return index * 2 + 1;
   }
+  // 右孩子
   rightChild(index) {
     return index * 2 + 2;
   }
   add(element) {
     this.data.push(element);
-    siftUp(this.data.length - 1);//将最后一个元素进行上浮操作
+    //将最后一个元素进行上浮操作 上浮到合适的位置
+    siftUp(this.data.length - 1);
   }
   findMax() {
-    if (this.data.length === 0) {//越界判断
+    if (this.data.length === 0) {
+      //越界判断
       throw new Error('is empty');
     }
-    return this.data[0];//因为是最大堆所以找数组第一个元素即可
+    //因为是最大堆所以找数组第一个元素即可
+    return this.data[0];
   }
   extractMax() {
     const ret = this.findMax();
     this.swap(this.data, 0, this.data.length - 1);
     this.data.pop();
-    siftDown(0);//下沉操作
+    //下沉操作
+    siftDown(0);
     return ret;
   }
   //上浮
@@ -58,7 +65,9 @@ class MaxHeap {
   //下沉
   siftDown(index) {
     //极端情况：当左孩子索引小于数组长度时代表绝对没有右孩子，是叶子结点
+
     while (this.leftChild(index) < this.data.length) {
+      // 
       let j = this.leftChild(index);
       if (j + 1 < this.data.length && this.data[j + 1] > this.data[j]) {
         j = this.rightChild(index);
