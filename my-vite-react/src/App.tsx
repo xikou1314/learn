@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import logo from './logo.svg'
-import Test from './test/test'
-import Test1 from './test1'
+import Test from './testLess/test'
+import Test1 from './test/test1'
 import './App.css'
 
 function App() {

@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [reactRefresh()],
   css: {
     modules: {
-      scopeBehaviour: 'global',
+      scopeBehaviour: 'local',
       hashPrefix: 'camelCase',
       localsConvention: 'camelCaseOnly'
     }
