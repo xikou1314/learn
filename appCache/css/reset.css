@@ -1,0 +1,40 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, table, tbody, tfoot, thead, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video { margin:0; padding:0; }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display:block; }
+table { border-spacing:0; border-collapse:collapse; }
+fieldset, img { border:0; vertical-align:top; }
+address, caption, cite, code, dfn, em, strong, th, var { font-weight:normal; font-style:normal; }
+ol, ul { list-style:none; }
+h1, h2, h3, h4, h5, h6 { font-weight:normal; font-size:100%; }
+abbr, acronym { border:0; }
+body { font-size:12px; color:#383838; font: 12px/22px SimSun, Verdana, Geneva, sans-serif; background-repeat:repeat-x;background-color:#fff;background-position:0 -220px; }
+a { text-decoration:none; color:#383838; }
+a:hover{color:#2e9bd7;}
+/* font */
+.fb { font-weight:bold; }
+.f12 { font-size:12px; }
+.f14 { font-size:14px; }
+/* wp */
+.wp { overflow: hidden; text-overflow: ellipsis; white-space:nowrap; }
+/* float */
+.fl { float:left; }
+.fr { float:right; }
+/* mb */
+.mb10 { margin-bottom:10px; }
+/* clear */
+.clear { _zoom:1;overflow:hidden; }
+.header, .menu { width:1000px; margin:0 auto; }
+.filmslide, .recommend_game, .information, .network_game, .web_game, .ad, .friendly_link,.warp { width:1000px; margin:0 auto 10px auto; }
+body,.logo,.menu{background-image:url(../images/common.png);}
+/* header */
+.header { line-height:32px; }
+.header_welcome { padding-left:15px; }
+.header_log-reg { margin-right:10px; }
+.header_log-reg a { margin-right:10px; }
+/* menu */
+.menu { padding:20px 0 20px 20px; width:980px; background-repeat:no-repeat; background-position:0 -1px; }
+.logo { background-position:0 -137px;background-repeat:no-repeat; height:75px; width:270px; text-indent:-999999px; }
+.nav {font-size:22px; font-family:'\5FAE\8F6F\96C5\9ED1'; line-height:75px; }
+.nav a { margin-right:38px; }
+/* footer */
+.footer { text-align:center; border-top:solid 1px #d6d6d6; padding:40px 0; margin-top:30px;}
+.footer a { margin:0 5px; }
