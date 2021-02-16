@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<link>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cookie</title>
+<link rel="stylesheet" type="text/css" href="./index.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="box">
+      <input type="text" placeholder="请输入cookie的name" id="cookieName" />
+      <input type="text" placeholder="请输入cookie的value" id="cookieValue" />
+    </div>
+    <div class="box">
+      <button onclick="setCookie()">设置cookie</button>
+      <button onclick="getCookies()">获取cookies</button>
+    </div>
+    <div class="box">
+      <h1>cookie展示区域</h1>
+      <p id="cookie-content" class="bordered-div"></p>
+    </div>
+  </div>
+  <script src="./index.js"></script>
+</body>
+
+</html>

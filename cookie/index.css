@@ -1,0 +1,17 @@
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 800px;
+  min-height: 300px;
+}
+.container .box {
+  margin: 20px;
+}
+.bordered-div {
+  border: 1px solid #ccc;
+  height: 200px;
+}
