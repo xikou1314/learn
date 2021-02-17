@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    #container {
+      border: 1px solid #aaa;
+      border-radius: 3px;
+      padding: 10px;
+      margin: 10px;
+      min-height: 400px;
+    }
+  </style>
+</head>
+<body>
+ 
+  <h1>拖放API的扩展知识</h1>
+  <h3>请拖动您的照片到下方方框区域</h3>
+  <div id="container"></div>
+ 
+  <script>
+   
+    document.ondragover = function(e){
+      e.preventDefault(); //使得drop事件可以触发
+    }
+    // document的ondrop事件默认会打开新页面预览文件的图片
+    document.ondrop = function(e){
+      e.preventDefault(); 
+    }
+     
+    container.ondrop = function(e){
+      console.log('客户端拖动着一张图片释放了...')
+      var f0 = e.dataTransfer.files[0];
+      var fr = new FileReader();
+      fr.readAsDataURL(f0); //从文件中读取URL数据
+      fr.onload = function(){
+        console.log('读取文件完成')
+        console.log(fr.result);
+        var img = new Image();
+        img.src = fr.result; //URL数据
+        container.appendChild(img);
+      }
+    }
+ 
+  </script>
+</body>
+</html>
