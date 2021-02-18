@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>IE as follow:</h1>
+    <a href="javascript: void 0" onclick="savetxt('a.txt'); return false"
+      >点击下载文件</a
+    >
+    <a href="javascript:svcode({value: '3546103sdf1685sdf'})">点击下载文件</a>
+    <a href="javascript:saveCodeByIframe({value: '3546103sdf1685sdf'})"
+      >点击下载文件</a
+    >
+    <iframe id="myFrame" style="display: none"></iframe>
+    <script>
+      //IE.保存的是HTML页面
+      function savetxt(fileURL) {
+        var fileURL = window.open(
+          fileURL,
+          "_blank",
+          "height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no"
+        );
+        fileURL.window.close();
+        fileURL.close();
+        fileURL.document.execCommand("SaveAs", false, "b.txt");
+      }
+      //IE，保存文本
+      function svcode(obj) {
+        var winname = window.open(
+          "",
+          "_blank",
+          "height=1,width=1,top=200,left=300"
+        );
+        winname.document.open("text/html", "replace");
+        winname.document.writeln(obj.value);
+        winname.close();
+        winname.document.execCommand("saveas", false, "b.txt");
+      }
+      //IE，保存文本
+      function saveCodeByIframe(obj) {
+        alert(navigator.appName);
+        //if (navigator.appName == "Microsoft Internet Explorer"){}
+        //获取IFrame的三种方式
+        //var myFrame = window.frames["myFrame"].document;
+        var myFrame = document.getElementById("myFrame").contentWindow.document;
+        //var myFrame = document.getElementById("myFrame").document
+        myFrame.open("text/html", "replace");
+        myFrame.write(obj.value);
+        myFrame.close();
+        myFrame.execCommand("SaveAs", true, "b.txt");
+      }
+    </script>
+  </body>
+</html>
