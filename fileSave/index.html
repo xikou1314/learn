@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!--  网页地址和图片地址同源的情况下这样是可以的，不同源则是直接打开这个地址 --><br />　　<!-- 方法一:同源情况下载  -->
+    <header class="clearfix" style="text-align: center">
+      <a
+        style="padding: 10px"
+        href="http://127.0.0.1:5500/fileSave/sht.jpg"
+        download="sht.jpg"
+      >
+        点击下载文件
+      </a>
+    </header>
+
+    <!-- 方法二:不同源  将文件打包为.zip/.rar等浏览器不能打开的文件 就可下载。 -->
+    <header class="clearfix" style="text-align: center; margin-top: 50px">
+      <a
+        style="padding: 10px"
+        href="https://dl.pstmn.io/download/latest/win64"
+        download="sht.exe"
+      >
+        点击下载文件
+      </a>
+    </header>
+    <!-- http://img.caissa.com.cn/zip/2020/fyx_01/pc/sht.jpg -->
+
+    <hr />
+    <!--  按钮监听又可以分为两种方法， 对于浏览器能打开的文件类型无效 -->
+    <p>监听按钮方法: 都要同源限制;</p>
+
+    <p><span id="btn1" style="color: blue"> window.open() 下载方法 </span></p>
+    <p><span id="btn2" style="color: blue">表单下载方法 </span></p>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script>
+      $(function () {
+        $("#btn1").click(function () {
+          window.open("http://127.0.0.1:5500/fileSave/sht.jpg");
+        });
+        $("#btn2").click(function () {
+          var $form = $("<form method='get'> </form>");
+          $form.attr(
+            "action",
+            "http://127.0.0.1:5500/fileSave/sht.jpg"
+          );
+
+          $(document.body).append($form);
+          $form.submit();
+        });
+      });
+    </script>
+  </body>
+</html>
