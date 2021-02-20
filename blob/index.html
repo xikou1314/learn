@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function uploadFile(file) {
+            var chunkSize = 1024 * 1024;
+            var totalSize = file.size;
+            var chunkQuanity = Math.ceil(totalSize/chunkSize)
+            var offset = 0;
+
+            var reader = new FileReader()
+            reader.onload = function(e) {
+                var xhr = new XMLHttpRequest();
+
+                xhr.open('POST', url)
+                xhr.overrideMimeType("application/octet-stream")
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        ++offset;
+                        if (offset === chunkQuanity) {
+                            alert('上传完成')
+                        } else if (offset === chunkQuanity - 1) {
+                            var blob = file.slice(offset * chunkSize, totalSize)
+                            reader.readAsBinaryString(blob)
+                        } else {
+                            var blob = file.slice(offset * chunkSize, (offset + 1) * chunkSize)
+                            reader.readAsBinaryString(blob)
+                        }
+                    } else {
+                        alert('上传出错')
+                    }
+                }
+
+                if (xhr.sendAsBinary) {
+                    xhr.sendAsBinary(e.target.result)
+                } else {
+                    xhr.send(e.target.result)
+                }
+            }
+            var blob = file.slice(0, chunkSize)
+            reader.readAsBinaryString(blob)
+        }
+    </script>
+</body>
+</html>
