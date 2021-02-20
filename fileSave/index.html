@@ -44,10 +44,7 @@
         });
         $("#btn2").click(function () {
           var $form = $("<form method='get'> </form>");
-          $form.attr(
-            "action",
-            "http://127.0.0.1:5500/fileSave/sht.jpg"
-          );
+          $form.attr("action", "http://127.0.0.1:5500/fileSave/sht.jpg");
 
           $(document.body).append($form);
           $form.submit();
