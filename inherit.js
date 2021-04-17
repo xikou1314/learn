@@ -177,7 +177,7 @@ var sub4 = content(obj);
 
 console.log(sub4.name);
 
-// 寄生继承 在原型式继承的基础上 可以自己定义属性和方法
+// 寄生继承 在原型继承的基础上 可以自己定义属性和方法
 var obj1 = {
   name: "parent",
 };
@@ -214,6 +214,8 @@ function content2(o) {
 }
 
 function inherite(SubClass, SupClass) {
+  // 寄生父亲的构造函数 创建一个空的实例 
+  // 用空的实例来实现组合继承 注意call依然使用的是父亲的构造函数
   var o = content2(SupClass.prototype);
   SubClass.prototype = o;
   o.constructor = SubClass;
@@ -244,7 +246,7 @@ class Sub7 extends Parent7 {
 
 var sub7 = new Sub7();
 console.log(sub7.name, sub7.age);
-
+// 寄生组合式继承
 function Sup() {
   this.name = "ssss";
 }
