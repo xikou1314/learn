@@ -27,13 +27,58 @@
         /**
          * 创建网格模型
          */
-        // var geometry = new THREE.SphereGeometry(60, 40, 40); //创建一个球体几何对象
-        var geometry = new THREE.BoxGeometry(50, 50, 100); //创建一个立方体几何对象Geometry
-        var material = new THREE.MeshLambertMaterial({
-            color: 0x0000ff
-        }); //材质对象Material
-        var mesh = new THREE.Mesh(geometry, material); //网格模型对象Mesh
-        scene.add(mesh); //网格模型添加到场景中
+
+        // 自定义几何体
+
+        var geometry = new THREE.BufferGeometry(); // 创建一个Buffer类型几何体对象
+
+        // 类型数组创建顶点数据
+
+        var vertices = new Float32Array([
+            0, 0, 0, // 顶点1坐标
+            50, 0, 0, // 顶点2坐标
+            0, 100, 0, // 顶点3坐标
+            0, 0, 10, // 顶点4坐标
+            0, 0, 100, // 顶点5坐标
+            50, 0, 10, // 顶点6坐标
+        ]);
+
+        // 创建属性缓冲区对象
+        var attribute = new THREE.BufferAttribute(vertices, 3); // 3个为一组，表示一个顶点的xyz坐标
+        // 设置几何体attributes属性的位置属性
+        geometry.attributes.position = attribute
+
+        // // 三角面(网格)渲染模式
+        // var material = new THREE.MeshBasicMaterial({
+        //     color: 0x0000ff,    // 三角面颜色
+        //     side: THREE.DoubleSide // 两面可见
+        // }); // 材质对象
+
+        // var mesh = new THREE.Mesh(geometry, material); // 网格模型对象Mesh
+        // mesh.position.set(0, 0, 0);//设置mesh模型对象的xyz坐标为120,0,0
+        // scene.add(mesh); //
+
+        // // 点渲染模式
+        // var material = new THREE.PointsMaterial({
+        //     color: 0xff0000,
+        //     size: 10.0 //点对象像素尺寸
+        // }); //材质对象
+        // var points = new THREE.Points(geometry, material); //点模型对象
+        // scene.add(points); //点对象添加到场景中
+
+        // 线条渲染模式
+        var material = new THREE.LineBasicMaterial({
+            color: 0xff0000 //线条颜色
+        });//材质对象
+        var line = new THREE.Line(geometry, material);//线条模型对象
+        scene.add(line);//线条对象添加到场景中
+
+
+
+        // 辅助坐标系  参数250表示坐标系大小，可以根据场景大小去设置
+        var axisHelper = new THREE.AxisHelper(250);
+        scene.add(axisHelper);
+
         /**
          * 光源设置
          */
@@ -64,30 +109,7 @@
         renderer.setSize(width, height);//设置渲染区域尺寸
         renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色
         document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
-        //执行渲染操作   指定场景、相机作为参数
-        // renderer.render(scene, camera);
-        // function render() {
-        //     renderer.render(scene, camera);//执行渲染操作
-        //     mesh.rotateY(0.01);//每次绕y轴旋转0.01弧度
-        // }
-        // //间隔20ms周期性调用函数fun,20ms也就是刷新频率是50FPS(1s/20ms)，每秒渲染50次
-        // setInterval("render()", 20);
-        // function render() {
-        //     renderer.render(scene, camera);//执行渲染操作
-        //     mesh.rotateY(0.01);//每次绕y轴旋转0.01弧度
-        //     requestAnimationFrame(render);//请求再次执行渲染函数render
-        // }
-        // render();
-        // let T0 = new Date();//上次时间
-        // function render() {
-        //     let T1 = new Date();//本次时间
-        //     let t = T1 - T0;//时间差
-        //     T0 = T1;//把本次时间赋值给上次时间
-        //     requestAnimationFrame(render);
-        //     renderer.render(scene, camera);//执行渲染操作
-        //     mesh.rotateY(0.001 * t);//旋转角速度0.001弧度每毫秒
-        // }
-        // render();
+
         function render() {
             renderer.render(scene, camera);//执行渲染操作
             // mesh.rotateY(0.01);//每次绕y轴旋转0.01弧度
