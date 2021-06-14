@@ -5,8 +5,8 @@ import { UpdateQueue, Update } from "./updateQueue";
 import { scheduleRoot } from "./class-scheduler";
 
 function createElement(type, config, ...children) {
-    delete config.__source;
-    delete config.__self;
+    // delete config.__source;
+    // delete config.__self;
     return {
         type,
         props: {
