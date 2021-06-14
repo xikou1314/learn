@@ -104,7 +104,7 @@ class App extends React.Component {
         return (
             <div>
                 <button onClick={this.btn}>+</button>
-                APp
+                app
             </div>
         )
     }

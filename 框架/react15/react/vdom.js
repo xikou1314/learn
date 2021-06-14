@@ -28,6 +28,7 @@ export function createDOM(element) {
 
     let { $$typeof, content } = element;
     let dom = null;
+    // 不存在type则为文本节点
     if (!$$typeof) {
         dom = document.createTextNode(element);
     } else if ($$typeof === TEXT) {
@@ -50,7 +51,7 @@ export function createDOM(element) {
 function createNativeDOM(element) {
     let { type, props: { children }, ref } = element;
     let dom = document.createElement(type);
-
+    // 递归构建子节点 无法中断
     // 创建子节点dom
     createDOMChildren(dom, children);
 
@@ -73,6 +74,8 @@ function createDOMChildren(parentNode, children = []) {
 }
 
 function createClassComponentDOM(element) {
+    // 处理class组件
+
     let { type: Component, props, ref } = element;
     let componentInstance = new Component(props);
 
@@ -115,6 +118,7 @@ function createClassComponentDOM(element) {
 }
 
 function createFunctionComponentDOM(element) {
+    // 处理function组件 此时react15还没有hooks
     let { type, props } = element;
     let renderElement = type(props);
     let newDOM = createDOM(renderElement);
