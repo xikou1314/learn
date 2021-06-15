@@ -165,7 +165,7 @@ function updateElement(oldElement, newElement) {
             currentDOM.textContent = newElement.content;
         }
     } else if (oldElement.$$typeof === ELEMENT) {
-
+        // 原生dom元素
         updateDOMProperties(currentDOM, oldElement.props, newElement.props);
         // 更新children
         updateChildrenElements(currentDOM, oldElement.props.children, newElement.props.children);
@@ -173,6 +173,7 @@ function updateElement(oldElement, newElement) {
     } else if (oldElement.$$typeof === FUNC_COMPONENT) {
         updateFunctionComponent(oldElement, newElement);
     } else if (oldElement.$$typeof === CLASS_COMPONENT) {
+        // 更新class组件
         updateClassComponent(oldElement, newElement);
     }
 }
@@ -192,12 +193,14 @@ function updateFunctionComponent(oldElement, newElement) {
 
 function updateClassComponent(oldElement, newElement) {
     let componentInstance = oldElement.componentInstance;
+    // 复用旧的instance
     newElement.componentInstance = componentInstance;
     let oldRenderElement = componentInstance.renderElement;
     let updater = componentInstance.$updater;
+    // 更改过的props
     let nextProps = newElement.props;
 
-    // 挂载 context
+    // 挂载 context 处理静态的static contextType
     if(oldElement.type.contextType){
         componentInstance.context = oldElement.type.Provider.value;
     }
@@ -212,6 +215,7 @@ function updateClassComponent(oldElement, newElement) {
             componentInstance.state = { ...componentInstance.state, ...newState };
         }
     }
+    // 触发更新
     updater.emitUpdate(nextProps);
 }
 
@@ -225,6 +229,7 @@ function updateChildrenElements(dom, oldChildrenElements, newChildrenElements) {
 
     // 回到定点
     if (updateDepth === 0) {
+        // 回到最外面的点 开始打补丁
         // console.log(JSON.stringify(diffQueue, null, 2));
         patch(diffQueue);
         diffQueue.length = 0;
@@ -345,15 +350,19 @@ function patch(diffQueue) {
     let deleteMap = {};
     let deleteChildren = [];
     for (let i = 0; i < diffQueue.length; i++) {
+        // 当前变动
         let difference = diffQueue[i];
         let { parentNode, type, toIndex, fromIndex, dom } = difference;
+        // 移动或者删除
         if (type === MOVE || type === REMOVE) {
+            // 拿到旧的dom
             let oldChildDOM = parentNode.children[fromIndex];
+            // map里面插入一个标记
             deleteMap[fromIndex] = oldChildDOM;
             deleteChildren.push(oldChildDOM);
         }
     }
-
+    // 将deleteChildren里面的全删除
     deleteChildren.forEach(childDOM => {
         childDOM.parentNode.removeChild(childDOM);
     })
@@ -365,6 +374,7 @@ function patch(diffQueue) {
                 insertChildAt(parentNode, dom, toIndex);
                 break;
             case MOVE:
+                // 插入
                 insertChildAt(parentNode, deleteMap[fromIndex], toIndex);
                 break;
             default:

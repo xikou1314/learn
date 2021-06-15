@@ -12,6 +12,7 @@ export const updateQueue = {
         let { updaters } = this;
         this.isPending = true;
         let updater;
+        // 使用批量更新
         while(updater = updaters.pop()){
             updater.updateComponent(); // 更新所有的需要更新的组件
         }
@@ -40,7 +41,9 @@ class Updater {
     }
 
     emitUpdate(nextProps) {
+        //  触发更新
         this.nextProps = nextProps;
+        // 触发的时候 nextProps有值 或者更新队列不是正在pending状态 则使用非批量更新
         // 处于非批量更新模式
         if(this.nextProps || !updateQueue.isPending){
             this.updateComponent();
@@ -60,6 +63,7 @@ class Updater {
         
         if(pendingStates.length > 0){
             pendingStates.forEach(nextState => {
+                // 如果state是一个function
                 if(isFunction(nextState)){
                     state = {...state, ...nextState.call(componentInstace, state)};
                 } else {
@@ -67,7 +71,7 @@ class Updater {
                 }
             })
         }
-        // 用完之后清楚
+        // 用完之后清除pendingStates
         pendingStates.length = 0;
         return state;
     }
@@ -75,18 +79,22 @@ class Updater {
     updateComponent() {
         let { componentInstace, pendingStates, nextProps } = this;
         if(nextProps || pendingStates.length > 0){
+            // nextProps存在 或者 pendingStates的长度大于0
+            // 则判断是否应该更新
             shouldUpdate(componentInstace, nextProps, this.getState());
         }
     }
 }
 
 function shouldUpdate(componentInstace, nextProps, nextState){
+    // 将props和state赋值给当前的实例
     componentInstace.props = nextProps;
     componentInstace.state = nextState;
+    // 执行shouldComponentUpdate方法 合并了但是不更新 就是不会显示在页面上
     if(componentInstace.shouldComponentUpdate && !componentInstace.shouldComponentUpdate(nextProps, nextState)){
         return false
     }
-    
+    // 构造了新的state并强制更新
     // 组件进入强制更新状态，实际更新
     componentInstace.forceUpdate();
 }
@@ -107,6 +115,7 @@ class Component {
      * @param {*} partialState 待更新的数据
      */
     setState(partialState){
+        // 通过触发updater完成更新
         this.$updater.addState(partialState);
     }
 

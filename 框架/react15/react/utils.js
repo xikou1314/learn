@@ -15,6 +15,7 @@ export function setProps(dom, props) {
 
 function setProp(dom, key, value) {
     if (/^on/.test(key)) {
+        // 注册事件 事件是批量更新的
         // dom[key.toLowerCase()] = value;
         addEvent(dom, key, value);
     } else if (key === "style") {
