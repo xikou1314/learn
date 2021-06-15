@@ -90,10 +90,11 @@ function shouldUpdate(componentInstace, nextProps, nextState){
     // 组件进入强制更新状态，实际更新
     componentInstace.forceUpdate();
 }
-
+// class组件 会继承这个类
 class Component {
     constructor(props){
         this.props = props;
+        // 创建一个新的updater实例
         this.$updater = new Updater(this);
         this.state = {};
         this.nextProps = null; // 下一个props

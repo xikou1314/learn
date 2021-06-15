@@ -285,13 +285,21 @@ class ScrollingList extends React.Component {
     }
 }
 
+console.log('组件',<div>
+    {/* <Counter /> */}
+    {/* <hr/> */}
+    {/* <ScrollingList /> */}
+    <hr />
+    <FunctionPage/>
+</div>)
+
 ReactDOM.render(
     <div>
         {/* <Counter /> */}
         {/* <hr/> */}
         {/* <ScrollingList /> */}
         <hr />
-        <FunctionPage/>
+        <FunComponent color="red" number={0}/>
     </div>,
     document.getElementById('root')
 );

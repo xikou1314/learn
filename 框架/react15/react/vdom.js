@@ -24,6 +24,7 @@ export function ReactElement($$typeof, type, key, ref, props) {
 }
 
 export function createDOM(element) {
+    // 拿到第一个
     element = onlyOne(element);
 
     let { $$typeof, content } = element;
@@ -125,7 +126,7 @@ function createFunctionComponentDOM(element) {
     renderElement.dom = newDOM;
     return newDOM;
 }
-
+// diff比较
 export function compareTwoElement(oldRenderElement, newRenderElement) {
     oldRenderElement = onlyOne(oldRenderElement);
     newRenderElement = onlyOne(newRenderElement);
@@ -133,13 +134,16 @@ export function compareTwoElement(oldRenderElement, newRenderElement) {
     let currentDOM = oldRenderElement.dom;
     let currentElement = oldRenderElement;
     if (newRenderElement == null) {
+        // 删除
         currentDOM.parentNode.removeChild(currentDOM);
         currentDOM = null;
     } else if (oldRenderElement.type !== newRenderElement.type) {
+        // 重新创建
         let newDOM = createDOM(newRenderElement);
         currentDOM.parentNode.replaceChild(newDOM, currentDOM);
         currentElement = newRenderElement;
     } else {
+        // 更新
         updateElement(oldRenderElement, newRenderElement);
         currentElement = newRenderElement;
     }
@@ -153,13 +157,17 @@ export function compareTwoElement(oldRenderElement, newRenderElement) {
  * @param {*} newElement 
  */
 function updateElement(oldElement, newElement) {
+    // 复用旧的dom 减少重新创建的开销
     let currentDOM = newElement.dom = oldElement.dom;
     if (oldElement.$$typeof === TEXT && newElement.$$typeof === TEXT) {
+        // 文本处理
         if (oldElement.content !== newElement.content) {
             currentDOM.textContent = newElement.content;
         }
     } else if (oldElement.$$typeof === ELEMENT) {
+
         updateDOMProperties(currentDOM, oldElement.props, newElement.props);
+        // 更新children
         updateChildrenElements(currentDOM, oldElement.props.children, newElement.props.children);
         oldElement.props = newElement.props;
     } else if (oldElement.$$typeof === FUNC_COMPONENT) {
@@ -175,6 +183,7 @@ function updateDOMProperties(dom, oldProps, newProps) {
 
 function updateFunctionComponent(oldElement, newElement) {
     let oldRenderElement = oldElement.renderElement;
+    // type是函数组件本身
     let newRenderElement = newElement.type(newElement.props);
     let currentElement = compareTwoElement(oldRenderElement, newRenderElement);
     newElement.renderElement = currentElement;
@@ -208,7 +217,7 @@ function updateClassComponent(oldElement, newElement) {
 
 function updateChildrenElements(dom, oldChildrenElements, newChildrenElements) {
     updateDepth++;
-    // 
+    
     diff(dom, oldChildrenElements, newChildrenElements, diffQueue);
     // diff(dom, flatten(oldChildrenElements), flatten(newChildrenElements), diffQueue);
     updateDepth--;
@@ -231,16 +240,24 @@ function updateChildrenElements(dom, oldChildrenElements, newChildrenElements) {
  * @param {*} newChildrenElements 
  */
 function diff(parentNode, oldChildrenElements, newChildrenElements) {
+    // 老的子节点map
     let oldChildrenElementsMap = getCildrenElementsMap(oldChildrenElements);
+    // 新的子节点map
     let newChildrenElementsMap = getNewChildrenElementsMap(oldChildrenElementsMap, newChildrenElements);
+
     let lastIndex = 0;
 
     for (let i = 0; i < newChildrenElements.length; i++) {
         let newChildElement = newChildrenElements[i];
+        // 当前childElement有值
         if (newChildElement) {
+            // 拿到key 或者index
             let newKey = newChildrenElements[i].key || i.toString();
+            // 拿到旧的child
             let oldChildElment = oldChildrenElementsMap[newKey];
+            // 若是同一个
             if (newChildElement === oldChildElment) {
+                // 若旧组件的位置小于当前的最后一个 表示其需要将其后移
                 if (oldChildElment._mountIndex < lastIndex) {
                     diffQueue.push({
                         parentNode,
@@ -269,7 +286,7 @@ function diff(parentNode, oldChildrenElements, newChildrenElements) {
             }
         }
     }
-
+    
     for (const key in oldChildrenElementsMap) {
         if (!newChildrenElementsMap.hasOwnProperty(key)) {
             let oldChildElment = oldChildrenElementsMap[key];
