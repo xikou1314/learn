@@ -7,6 +7,8 @@ import { scheduleRoot } from "./class-scheduler";
 function createElement(type, config, ...children) {
     // delete config.__source;
     // delete config.__self;
+
+    // config 是在组件上的props
     return {
         type,
         props: {

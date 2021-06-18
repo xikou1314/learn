@@ -59,10 +59,11 @@ export function scheduleRoot(rootFiber) {
 function workLoop(deadline) {
     let shouldYield = false; // 本帧时间片有空余
     while (nextUnitOfWork && !shouldYield) {
+        // 若有child继续处理child
         nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
         shouldYield = deadline.timeRemaining() < 1; // 没有时间片，控制权交给浏览器
     }
-
+    // 没有下一个工作单元 且 已经构建的新的fiber树
     if (!nextUnitOfWork && workInProgressRoot) {
         console.log("render 阶段结束");
         commitRoot();
@@ -167,7 +168,7 @@ function reconclieChildren(currentFiber, newChildren) {
     if (oldFiber) {
         oldFiber.firstEffect = oldFiber.nextEffect = oldFiber.lastEffect = null;
     }
-
+    // 将child处理完
     while (newChildIndex < newChildren.length) {
         let newChild = newChildren[newChildIndex];
         let tag = null;
@@ -181,7 +182,9 @@ function reconclieChildren(currentFiber, newChildren) {
         } else if (typeof newChild.type === "string") {
             tag = TAG_HOST;
         }
+        // 相同type
         if (sameType) {
+            // 复用旧的fiberNode
             if (oldFiber.alternate) {
                 newFiber = oldFiber.alternate;
                 newFiber.props = newChild.props;
@@ -190,6 +193,7 @@ function reconclieChildren(currentFiber, newChildren) {
                 newFiber.nextEffect = null;
                 newFiber.updateQueue = oldFiber.updateQueue || new UpdateQueue();
             } else {
+                // 没有可复用的 创建一个新的
                 newFiber = {
                     tag: oldFiber.tag,
                     type: oldFiber.type,
@@ -203,6 +207,7 @@ function reconclieChildren(currentFiber, newChildren) {
                 }
             }
         } else {
+            // 创建新的fiber
             if (newChild) {
                 newFiber = {
                     tag,
@@ -215,6 +220,7 @@ function reconclieChildren(currentFiber, newChildren) {
                     updateQueue: new UpdateQueue()
                 }
             }
+            // 删除旧的fiber
             if (oldFiber) {
                 oldFiber.effectTag = DELETION;
                 deletions.push(oldFiber);
@@ -247,6 +253,7 @@ function completeUnitOfWork(currentFiber) {
             returnFiber.firstEffect = currentFiber.firstEffect;
         }
         if (currentFiber.lastEffect) {
+            // 将当前fiber的影响拼接到父节点上
             if (returnFiber.lastEffect) {
                 returnFiber.lastEffect.nextEffect = currentFiber.firstEffect;
             }
