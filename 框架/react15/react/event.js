@@ -12,6 +12,7 @@ let syntheticEvent = null;
  * @param {*} value 
  */
 export function addEvent(dom, eventType, listener) {
+    // 拿到事件的类型
     eventType = eventType.toLowerCase();
 
     // 在绑定的DOM节点上挂载一个对象，准备存放监听函数
@@ -20,7 +21,7 @@ export function addEvent(dom, eventType, listener) {
     // eventStore.onclick = () => {}
     eventStore[eventType] = listener;
 
-    // 绑定事件
+    // 绑定事件到document上
     document.addEventListener(eventType.slice(2), dispatchEvent, false);
 }
 
@@ -30,8 +31,11 @@ export function addEvent(dom, eventType, listener) {
  */
 
 function dispatchEvent(event) {
+    // 拿到原生事件的event
     let { type, target } = event;
+    // 将type组装一下
     let eventType = "on" + type;
+    // 创建合成事件 同时全局有一个当前事件的备份
     syntheticEvent = getSyntheticEvent(event);
 
     // 在事件监听函数执行前先进入批量更新模式
@@ -40,11 +44,12 @@ function dispatchEvent(event) {
     while (target) {
         let { eventStore } = target;
         let listener = eventStore && eventStore[eventType];
+        // 如果事件有回调 则调用回调 回调的参数是 target加上一个合成的事件对象
         if (listener) {
             listener.call(target, syntheticEvent);
             // 持久化产生的空对象
         }
-
+        // 然后将target 给父集 向上冒泡
         target = target.parentNode;
     }
 
@@ -75,6 +80,7 @@ class SyntheticEvent {
  * @param {*} nativeEvent 
  */
 function getSyntheticEvent(nativeEvent) {
+    // 若全局的不存在 则创建一个
     if (!syntheticEvent) {
         syntheticEvent = new SyntheticEvent();
     }
