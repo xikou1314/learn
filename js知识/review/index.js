@@ -443,7 +443,110 @@ function sum(arr) {
 let arrA = [1,2],arrB = [3,4]
 Array.prototype.push.apply(arrA, arrB)
 
+throttle = function(fn, delay) {
+  let timer = null
+  return function(...args) {
+    if(!timer) {
+      timer = setTimeout(() => {
+        fn.apply(this, args)
+        timer = null
+      }, delay)
+    }
+  }
+}
 
-// 数据结构
+debounce = function(fn, delay) {
+  let timer = null
+  return function(...args) {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      fn.apply(this, args)
+      timer = null
+    }, delay)
+  }
+}
 
-// 动态规划
+
+// 事件循环
+// 执行栈在执行完同步任务后，查看执行栈是否为空，如果执行栈为空，就会去执行Task，每一次执行完Task后，都会去检查MicroTask,
+// 若MicroTask里面有任务就全部执行完，然后再执行Task中的任务，如此循环
+
+// 宏任务 script setTimeOut setInterval setImmediate I/O UI Rendering
+
+// 微任务 Process.nextTick(node独有) Promise.then MutationObserver Object.observer
+
+
+// 以下代码执行的结果
+async function async1() {
+  console.log('async1 start');
+  await async2();
+  console.log('async1 end');
+}
+async function async2() {
+  console.log('async2');
+}
+console.log('script start');
+setTimeout(function() {
+  console.log('setTimeout');
+}, 0)
+async1();
+new Promise(function(resolve) {
+  console.log('promise1');
+  resolve();
+}).then(function() {
+  console.log('promise2');
+});
+console.log('script end');
+
+// script start
+
+// async1 start
+
+// async2
+
+// promise1
+
+// script end
+
+// async1 end
+
+// promise2
+
+// setTimeout
+
+
+// 几种判断数据类型的优点
+
+// typeof 无法区分object arr null（null比较特殊 二进制标识类似于对象）
+
+// instanceof 能够区分 Array Object Function 适用于判断自定义类实例对象 但是Number Boolean String基本数据类型不能判断
+
+// Object.prototype.toString.call() 精准判断数据类型 缺点写法繁琐不容易记，推荐封装后使用
+
+
+// DOM 事件类型
+
+// dom0: Element.onClick = function() {
+
+// }
+// 1是在标签内写onclick事件
+// 2是在js写onclick=function(){}函数
+
+// dom2: element.addEventListener('click', function(){}, false)
+
+// dom3: element.addEventListener('keyup', function(){}, false)
+
+// JSON.parse(JSON.stringify({})) 无法处理 undefined 正则表达式 function
+
+// class与js构造函数的区别
+
+// 1、箭头函数不能直接命名，不过允许它们赋值给一个变量
+// 2、箭头函数不能用做构造函数，你不能对箭头函数使用new关键字
+// 3、箭头函数也没有prototype属性，箭头函数绑定了词法作用域，不会修改this的指向
+// 4、箭头函数的作用域不能通过.call、.apply、.bind等语法来改变，这使得箭头函数的上下文将永久不变
+
+// 目前js解决异步的方案有哪些
+// 回调函数 事件监听 发布订阅 promise generator async/await
+
