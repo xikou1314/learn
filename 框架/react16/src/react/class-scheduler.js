@@ -231,7 +231,7 @@ function reconclieChildren(currentFiber, newChildren) {
         if (oldFiber) {
             oldFiber = oldFiber.sibling;
         }
-
+        // 新fiber存在
         if (newFiber) {
             if (newChildIndex === 0) {
                 currentFiber.child = newFiber;

@@ -255,6 +255,9 @@ function diff(parentNode, oldChildrenElements, newChildrenElements) {
     for (let i = 0; i < newChildrenElements.length; i++) {
         let newChildElement = newChildrenElements[i];
         // 当前childElement有值
+        // abc 0 1 2 acb
+        // lastIndex 理解为在旧的列表中目前已经比较过的最大的index
+        // 若之后比较的时候遇到比这个小的可复用的旧节点 应该将它后移
         if (newChildElement) {
             // 拿到key 或者index
             let newKey = newChildrenElements[i].key || i.toString();
