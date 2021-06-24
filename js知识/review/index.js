@@ -30,7 +30,7 @@ cat.showName()
   (
     // 4 为类数组(arguments和nodeList)添加数组方法 push,pop
     function () {
-      Array.prototype.push(arguments, "王五");
+      Array.prototype.push.call(arguments, "王五");
     }
   )("张三", "李四");
 
@@ -456,31 +456,6 @@ function flattern(arr) {
     arrB = [3, 4]
   Array.prototype.push.apply(arrA, arrB)
 
-  throttle = function (fn, delay) {
-    let timer = null
-    return function (...args) {
-      if (!timer) {
-        timer = setTimeout(() => {
-          fn.apply(this, args)
-          timer = null
-        }, delay)
-      }
-    }
-  }
-
-  debounce = function (fn, delay) {
-    let timer = null
-    return function (...args) {
-      if (timer) {
-        clearTimeout(timer)
-      }
-      timer = setTimeout(() => {
-        fn.apply(this, args)
-        timer = null
-      }, delay)
-    }
-  }
-
 
   // 事件循环
   // 执行栈在执行完同步任务后，查看执行栈是否为空，如果执行栈为空，就会去执行Task，每一次执行完Task后，都会去检查MicroTask,
@@ -615,7 +590,7 @@ function flattern(arr) {
       if (timer) {
         clearTimeout(timer)
       }
-      setTimeout(() => {
+      timer = setTimeout(() => {
         fn.apply(this, args)
         timer = null
       }, delay)
@@ -626,10 +601,15 @@ function flattern(arr) {
     let timer = null
     return function (...args) {
       if (!timer) {
-        setTimeout(() => {
+        timer = setTimeout(() => {
           fn.apply(this, args)
           timer = null
         }, delay)
       }
     }
   }
+
+  // 强缓存 expires 是一个绝对时间 容易受电脑时间影响 cache-control是一个相对时间 
+
+  // 协商缓存 浏览器发送if-modified-since到服务器 服务器查看文件更改过 则返回新的文件 若没有则返回304 同时带上新的last-modified
+  // 浏览器 发送if-none-match到服务器 服务器比对tag 若文件tag变化则返回新的资源 否则返回304 返回头有Etag
