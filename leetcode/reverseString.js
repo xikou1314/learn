@@ -8,7 +8,7 @@ function reverse (str) {
     return result;
 }
 console.log(reverse('Hello World!'));
-
+// 回问
 function isPalindrome(str) {
     str = str.replace(/[^a-z]/ig,'');
     
@@ -18,7 +18,7 @@ function isPalindrome(str) {
 }
 
 console.log(isPalindrome('sas'));
-
+// 整数反转
 function intReverse(num) {
     return Math.sign(num) * parseInt((num+'').split('').reverse().join(''));
 }

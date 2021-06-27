@@ -275,7 +275,7 @@ function BST() {
     var currNode = null
     stack.push(this.root)
     while(stack.length > 0) {
-      currNode = stack[0]
+      currNode = stack[stack.length - 1]
       if (preNode == null || preNode.left == currNode || preNode.right == currNode) {
         if (currNode.left) {
           stack.push(currNode.left)
@@ -296,8 +296,29 @@ function BST() {
 
   // 中序遍历利用线索化
   function inOrderWithoutStack() {
-    
+    var p = this.root
+    while (p) {
+      var pLeft = p.left
+      if (pLeft) {
+        // 找到以p为根节点的树的最右孩子
+        while (pLeft.right && pLeft.right != p) {
+          pLeft = pLeft.right
+        }
+        // 线索化
+        if (pLeft.right == null) {
+          pLeft.right = p
+          p = p.left
+          continue
+        } else {   // 线索化后已被访问
+          pLeft.right = null // 释放指向根节点(祖先)的指针
+        }
+      }
+      console.log(p.show()) // 打印
+      p = p.right // 向上回溯或者转向右子树
+    }
   }
-
+  
+  // createTree
+  
 
 }
