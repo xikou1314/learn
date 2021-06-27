@@ -320,30 +320,27 @@ function BST() {
 
   //  判断一个树是否是另一个树的子树
 
+  function hasSubtree(proot1, proot2) {
+    if (proot1 === null && proot2 === null) {
+      return true
+    }
+
+    if (proot1 === null && proot2 !== null) {
+      return false
+    }
+
+    if (proot1.data === proot2.data) {
+      return hasSubtree(proot1.left, proot2.left) && hasSubtree(proot1.right, proot2.right)
+    }
+    return false
+  }
+
   // 还原树 先序 中序
 
   // 还原树 后序 中序
 
   // 树的深度
 
-}
-
-// 子树
-
-function HasSubtree(pRoot1, pRoot2)
-{
-    // write code here
-    if (pRoot2 == null && pRoot1 == null) {
-        return true;
-    }
-    if (pRoot1 == null && pRoot2 != null) {
-        return false;
-    }
-    if (pRoot1.val == pRoot2.val) {
-        return HasSubtree(pRoot1.left, pRoot2.left) && HasSubtree(pRoot1.right, pRoot2.right);
-    }
-    return false;
-    
 }
 
 function reConstructBinaryTree(pre, vin)
