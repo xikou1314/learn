@@ -336,75 +336,71 @@ function BST() {
   }
 
   // 还原树 先序 中序
+  function reConstructBinaryTree(pre, vin) {
+      // 通过先序和中序遍历还原二叉树
+      // 分析遍历的特点 先序遍历 第一个元素是根节点
+      // 中序遍历 根节点在中间 根节点的左边是左子树 根节点的右边是右子树
+      if(pre.length <= 0) {
+          return null;
+      }
+      var node = new TreeNode(pre[0]);
+      var nodeindex = vin.indexOf(pre[0]);
+      // 取出左子树
+      // 取出右子树
+      node.left = reConstructBinaryTree(pre.slice(1,nodeindex+1),vin.slice(0,nodeindex));
+      node.right = reConstructBinaryTree(pre.slice(nodeindex+1),vin.slice(nodeindex+1));
+
+      return node;
+  }
 
   // 还原树 后序 中序
-
-  // 树的深度
-
-}
-
-function reConstructBinaryTree(pre, vin)
-{
-    // 通过先序和中序遍历还原二叉树
-    // 分析遍历的特点 先序遍历 第一个元素是根节点
-    // 中序遍历 根节点在中间 根节点的左边是左子树 根节点的右边是右子树
-    if(pre.length <= 0) {
-        return null;
-    }
-    var node = new TreeNode(pre[0]);
-    var nodeindex = vin.indexOf(pre[0]);
-    // 取出左子树
-    // 取出右子树
-    node.left = reConstructBinaryTree(pre.slice(1,nodeindex+1),vin.slice(0,nodeindex));
-    node.right = reConstructBinaryTree(pre.slice(nodeindex+1),vin.slice(nodeindex+1));
-
-    return node;
-}
-
-function reConstructBinaryTree1(post, vin)
-{
-    // 通过后序和中序遍历还原二叉树
-    // 分析遍历的特点 后序遍历 最后一个元素是根节点
-    // 中序遍历 根节点在中间 根节点的左边是左子树 根节点的右边是右子树
-    var length = post.length;
-
-    if(length <= 0) {
-        return null;
-    }
+  function reConstructBinaryTree1(post, vin) {
+      // 通过后序和中序遍历还原二叉树
+      // 分析遍历的特点 后序遍历 最后一个元素是根节点
+      // 中序遍历 根节点在中间 根节点的左边是左子树 根节点的右边是右子树
+      var length = post.length;
   
-    var node = new TreeNode(post[length]);
-    var nodeindex = vin.indexOf(post[length]);
-    // 取出左子树
-    // 取出右子树
-    node.left = reConstructBinaryTree1(post.slice(0,nodeindex),vin.slice(0,nodeindex));
-    node.right = reConstructBinaryTree1(post.slice(nodeindex, length - 1),vin.slice(nodeindex+1));
+      if(length <= 0) {
+          return null;
+      }
+    
+      var node = new TreeNode(post[length]);
+      var nodeindex = vin.indexOf(post[length]);
+      // 取出左子树
+      // 取出右子树
+      node.left = reConstructBinaryTree1(post.slice(0,nodeindex),vin.slice(0,nodeindex));
+      node.right = reConstructBinaryTree1(post.slice(nodeindex, length - 1),vin.slice(nodeindex+1));
+  
+      return node;
+  }
+  // 树的深度
+  function TreeDepth(pRoot) {
 
-    return node;
+      // write code here
+      if(!pRoot) return 0;
+      var deep = 0;
+      var temp = [];
+      temp.push(pRoot);
+
+      while(temp.length>0) {
+          deep ++;
+          var size = temp.length;
+          var current = []
+          for(var i=0; i<size; i++) {
+              if(temp[i].left) {
+                  current.push(temp[i].left);
+              } else if(temp[i].right) {
+                  current.push(temp[i].right);
+              }
+          }
+          temp = [].concat(current);
+      }
+
+      return deep;
+  }
 }
 
-// 树的深度
-function TreeDepth(pRoot)
-{
 
-    // write code here
-    if(!pRoot) return 0;
-    var deep = 0;
-    var temp = [];
-    temp.push(pRoot);
 
-    while(temp.length>0) {
-        deep ++;
-        var size = temp.length;
-        var current = []
-        for(var i=0; i<size; i++) {
-            if(temp[i].left) {
-                current.push(temp[i].left);
-            } else if(temp[i].right) {
-                current.push(temp[i].right);
-            }
-        }
-        temp = [].concat(current);
-    }
 
-    return deep;
-}
+
