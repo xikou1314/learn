@@ -64,7 +64,7 @@ function shellSort(arr) {
 
 function dynamicShellSort(arr) {
   var gap = 1
-  while(gap > arr.length / 3) {
+  while(gap < arr.length / 3) {
     gap = gap * 3 + 1
   }
   while(gap >= 1) {
@@ -134,5 +134,3 @@ function quickSort(arr) {
   }
   return quickSort(left).concat(base, quickSort(right))
 }
-
-// 堆排序 待定 

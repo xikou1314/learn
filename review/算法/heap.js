@@ -67,9 +67,6 @@ class MaxHeap {
     this.data.push(element)
     this.siftUp(this.data.length - 1)
   }
-
-
-
 }
 
 
