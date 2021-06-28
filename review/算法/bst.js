@@ -265,9 +265,6 @@ function BST() {
     }
   }
 
-
-  // 一些特殊的玩法
-
   // 通过指针进行后序遍历
   function postOrderByPointer() {
     var stack = []
