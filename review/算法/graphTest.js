@@ -17,12 +17,14 @@ function Graph(v) {
   this.pathTo = pathTo //最短路径
 
   function addEdge(v, w) {
+    // 往邻接矩阵插入数据 并把边的数量加上去
     this.adj[v].push(w)
     this.adj[w].push(v)
     this.edges++
   }
 
   function show() {
+    // 将每个节点的邻接矩阵打印出来
     for (var i = 0; i < this.vertices; i++) {
       var edg = ''
       for (var j = 0; j < this.adj[i].length; j++) {
@@ -47,7 +49,7 @@ function Graph(v) {
   }
 
   function bfs(v) {
-    // 借用queue
+    // 借用queue 每次把每一层遍历完
     var queue = [v]
     while (queue.length > 0) {
       var current = queue.slice()
@@ -65,8 +67,7 @@ function Graph(v) {
         }
       }
     }
-    reutn result
-
+    return result
   }
 
   function hasPathTo(i) {

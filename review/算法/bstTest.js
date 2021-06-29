@@ -8,21 +8,29 @@ function BST() {
   this.root = null;
   // 插入节点
   function insert(data) {
+    // 创建一个新的节点
     var node = new Node(data, null, null);
+    // 若根节点为空
     if (this.root == null) {
       this.root = node;
     } else {
+      // 根节点不为空
+
       var currentNode = this.root;
+
       var parent;
       while (true) {
         parent = currentNode;
+        // 若当前data 小于遍历到的节点
         if (data < currentNode.data) {
+          // 判断他的左节点是否为空 若为空 则挂到左节点上
           currentNode = currentNode.left;
           if (currentNode == null) {
             parent.left = node;
             break;
           }
         } else {
+          // 判断他的右节点是否为空 若为空 则挂到右节点上
           currentNode = currentNode.right;
           if (currentNode == null) {
             parent.right = node;
@@ -33,15 +41,19 @@ function BST() {
     }
   }
   // 查找节点
-
+  
   function find(data) {
     var currentNode = this.root;
+    // 从根节点开始遍历 只要不是null就继续
     while (currentNode) {
       if (data == currentNode.data) {
+        // 找到 直接返回
         return currentNode;
       } else if (data < currentNode.data) {
+        // 比遍历的节点小 指向左节点
         currentNode = currentNode.left;
       } else if (data > currentNode.right) {
+        // 比遍历的节点大 指向右节点
         currentNode = currentNode.right;
       }
     }
@@ -50,15 +62,22 @@ function BST() {
 
   // 先序遍历递归
   function preOrder() {
+    // 创建结果数组
     var result = [];
+    // 调用递归先序遍历方法
     preOrderFn(this.root, result);
+    // 返回结果
     return result;
   }
 
   function preOrderFn(node, result) {
+    // 如果node 不为null
     if (node != null) {
+      // 把当前节点push到结果数组
       result.push(node.data);
+      // 递归左子树
       preOrderFn(node.left, result);
+      // 递归右子树
       preOrderFn(node.right, result);
     }
   }
@@ -66,15 +85,20 @@ function BST() {
   // 先序遍历循环
 
   function preOrderWhile() {
+    // 借助stack
     var stack = [];
+    // 创建结果数组
     var result = [];
+    // 将当前currentNode指向root
     var currentNode = this.root;
     while (currentNode || stack.length > 0) {
+      // 将左边的节点全入栈
       while (currentNode) {
         result.push(currentNode.data);
         stack.push(currentNode);
         currentNode = currentNode.left;
       }
+      // 若左边到头了 则出栈一个 将current指向右节点
       if (stack.length > 0) {
         currentNode = currentNode.pop();
         currentNode = currentNode.right;
@@ -99,16 +123,20 @@ function BST() {
   }
   // 中序遍历循环
   function inOrderWhile() {
+    // 栈
     var stack = [];
     var result = [];
+    // currentNode 指向
     var currentNode = this.root;
     while (currentNode || stack.length > 0) {
       while (currentNode) {
+        // 将当前节点入栈并指向左节点
         stack.push(currentNode);
         currentNode = currentNode.left;
       }
       if (stack.length > 0) {
         currentNode = stack.pop();
+        // 保存结果
         result.push(currentNode.data);
         currentNode = currentNode.right;
       }
@@ -137,6 +165,7 @@ function BST() {
     var result = [];
     while (stack.length > 0) {
       currentNode = stack[stack.length - 1];
+      // 向下遍历中
       if (
         preNode == null ||
         preNode.left == currentNode ||
@@ -147,14 +176,17 @@ function BST() {
         } else if (currentNode.right) {
           stack.push(currentNode.right);
         }
+        // 左节点返回
       } else if (currentNode.left == preNode) {
         if (currentNode.right) {
           stack.push(currentNode.right);
         }
+        // 右节点返回
       } else {
         result.push(currentNode.data);
         stack.pop();
       }
+      // 设置preNode 开启下一次循环
       preNode = currentNode;
     }
   }
