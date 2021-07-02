@@ -15,9 +15,7 @@ function BST() {
       this.root = node;
     } else {
       // 根节点不为空
-
       var currentNode = this.root;
-
       var parent;
       while (true) {
         parent = currentNode;
@@ -40,6 +38,33 @@ function BST() {
       }
     }
   }
+
+  function insert1(data) {
+    var node = new Node(data, null, null)
+    if (this.root == null) {
+      this.root = node
+    } else {
+      var preNode = null
+      var currentNode = this.root
+      while (true) {
+        preNode = currentNode
+        if (data < currentNode.data) {
+          currentNode = currentNode.left
+          if(currentNode == null) {
+            preNode.left = node
+            break
+          } else {
+            currentNode = currentNode.right
+            if (currentNode == null) {
+              preNode.right = node
+              break
+            }
+          }
+        }
+      }
+    }
+  }
+
   // 查找节点
   
   function find(data) {
@@ -58,6 +83,19 @@ function BST() {
       }
     }
     return null;
+  }
+
+  function find1(data) {
+    var currentNode = this.root
+    while (currentNode) {
+      if (currentNode.data == data) {
+        return currentNode
+      } else if (data < currentNode.data) {
+        currentNode = currentNode.left
+      } else {
+        currentNode = currentNode.right
+      }
+    }
   }
 
   // 先序遍历递归
@@ -107,6 +145,23 @@ function BST() {
     return result;
   }
 
+  function preOrderByWhile() {
+    var currentNode = this.root
+    var stack = []
+    var result = []
+    while (currentNode || stack.length > 0) {
+      while (currentNode) {
+        stack.push(currentNode)
+        result.push(currentNode.data)
+        currentNode = currentNode.left
+      }
+      if (stack.length > 0) {
+        currentNode = stack.pop()
+        currentNode = currentNode.right
+      }
+  }
+
+
   // 中序遍历递归
   function inOrder() {
     var result = [];
@@ -142,6 +197,24 @@ function BST() {
       }
     }
   }
+
+  function inOrderByWhile() {
+    var currentNode = this.root
+    var stack = []
+    var result = []
+    while(currentNode ||stack.length > 0) {
+      while (currentNode) {
+        stack.push(currentNode)
+        currentNode = currentNode.left
+      }
+      if (stack.length > 0) {
+        currentNode = currentNode.pop()
+        result.push(currentNode.data)
+        currentNode = currentNode.right
+      }
+    }
+  }
+
   // 后序遍历递归
   function postOrder() {
     var result = [];
@@ -191,8 +264,29 @@ function BST() {
     }
   }
 
-  // 获取最大值
+  function poseOrderByWhile() {
+    var preNode = null
+    var stack = [this.root]
+    var result = []
+    var currentNode = null
+    while (stack.length > 0) {
+        currentNode = stack[stack.length - 1]
+        if (preNode == null || preNode.left == currentNode || preNode.right == currentNode) {
+          stack.push(currentNode)
+        } else if (currentNode.left == preNode) {
+          // 左边返回
+          if (currentNode.right) {
+            stack.push(currentNode.right)
+          }
+        } else {
+          result.push(currentNode.data)
+          stack.pop()
+        }
+        preNode = currentNode
+    }
+  }
 
+  // 获取最大值
   function findMax(node) {
     var preNode;
     while (node) {
@@ -216,6 +310,36 @@ function BST() {
   function removeByMax(data) {
     return this.removeByMax(this.root, data);
   }
+
+  function removeByMax1(data) {
+    return removeByMax1Fn(this.root, data)
+  }
+  function removeByMax1Fn(node, data) {
+    if (node!= null) {
+      if (node.data == data) {
+        if (node.left == null && node.right == null) {
+          return null
+        }
+        if (node.left == null) {
+          return node.right
+        }
+        if (node.right == null) {
+          return node.left
+        }
+
+        var maxData = findMax(node.left)
+        node.data = maxData
+        node.left = removeByMax1Fn(node.left, maxData)
+        return node
+      } else if (data < node.data) {
+        return removeByMax1Fn(node.left, data)
+      } else if (data > node.data) {
+        return removeByMax1Fn(node.right, data)
+      }
+    }
+    return null
+  }
+
 
   function removeByMaxFn(node, data) {
     if (node == null) return null;
@@ -268,6 +392,36 @@ function BST() {
       return removeByMinFn(node.right, data)
     }
   }
+
+  function removeByMin1(data) {
+    return removeByMinFn1(this.root, data)
+  }
+
+  function removeByMinFn1(node, data) {
+    if (node != null) {
+      if (node.data == data) {
+        if (node.left == null && node.right == null) {
+          return null
+        }
+        if (node.left == null) {
+          return node.right
+        } 
+        if (node.right == null) {
+          return node.left
+        }
+        var minData = findMin(node.right)
+        node.data = minData
+        node.right = removeByMinFn1(node.right, minData)
+        return node
+      } else if (node < node.data) {
+        return removeByMinFn1(node.left, data)
+      } else if (node > node.data) {
+        return removeByMinFn1(node.right, data)
+      }
+    }
+    return null
+  }
+
   // 层序遍历
 
   function layOrder() {
@@ -277,6 +431,24 @@ function BST() {
     while (queue.length > 0) {
       currentNode = queue.shift()
       if (currentNode.left) {
+        queue.push(currentNode.left)
+      }
+      if (currentNode.right) {
+        queue.push(currentNode.right)
+      }
+      result.push(currentNode.data)
+    }
+    return result
+  }
+
+  function layOrder1() {
+    var queue = [this.root]
+    var result = []
+    var curretNode
+    while(queue.length > 0) {
+      currentNode = queue.shift()
+
+      if (current.left) {
         queue.push(currentNode.left)
       }
       if (currentNode.right) {
@@ -310,6 +482,7 @@ function BST() {
       p = p.right // 向上回溯或者转向右子树
     }
   }
+
   // 判断一个树是否是另一个树的子树
   function hasSubtree(root1, root2) {
     if (root1 == null && root2 == null) {
