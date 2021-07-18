@@ -3,6 +3,7 @@
 class MaxHeap {
   constructor(arr) {
     this.data = arr
+    // 从第一个父节点开始 逐个下沉
     for (var i = this.parent(arr.length - 1); i >= 0; i--) {
       this.siftDown(i)
     }
@@ -20,20 +21,27 @@ class MaxHeap {
     return 2 * index + 2
   }
   siftDown(index) {
+    // 当前节点有子节点是
     while (this.leftChild(index) < this.data.length) {
+      // 左节点
       var j = this.leftChild(index)
+      // 拿到左右子节点当中最大的那一个
       if (j + 1 < this.data.length && this.data[j + 1] > this.data[j]) {
         j = j + 1
       }
+      // 如果当前节点比子节点都大 则终止
       if (this.data[index] > this.data[j]) {
         break
       } else {
+        // 否则和子节点中最大的交换
         [this.data[index], this.data[j]] = [this.data[j], this.data[index]]
+        // 然后继续下沉
         index = j
       }
     }
   }
   siftUp(index) {
+    // 只要当前节点比父节点大 就上浮 交换 然后继续上浮
     while (this.data[index] > this.parent(index)) {
       [this.data[index], this.data[this.parent(index)]] = [this.data[this.parent(index)], this.data[index]]
       index = this.parent(index)
@@ -62,6 +70,9 @@ class MaxHeap {
 class MinHeap {
   constructor(arr) {
     this.data = arr
+    for(var i = this.parent(this.data.length - 1); i>=0; i--) {
+      this.siftDown(i)
+    }
   }
   parent(index) {
     if (index == 0) {

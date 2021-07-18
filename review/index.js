@@ -242,26 +242,6 @@ class Chinese extends Person {
   }
 }
 
-// 柯里化
-const currying = fn => {
-  const len = fn.length
-  return function curr(...arg1) {
-    if (arg1.length >= len) {
-      return fn(...arg1)
-    }
-    return (...arg2) => curr(...arg1, ...arg2)
-  }
-}
-
-
-// 反柯里化
-Function.prototype.uncurrying = function () {
-  var that = this
-  return function () {
-    return Function.prototype.call.apply(that, arguments)
-  }
-}
-
 function sayHi() {
   return "Hello " + this.value + " " + [].slice.call(arguments);
 }
@@ -382,7 +362,8 @@ function flattern(arr) {
 
   // 数组去重
 
-  Array.from(new Set([1, 2, 3, 4, 5, 5]))[...new Set([1, 2, 3, 4, 5, 5])]
+  Array.from(new Set([1, 2, 3, 4, 5, 5]))
+  [...new Set([1, 2, 3, 4, 5, 5])]
 
   Array.prototype.distinct = function () {
     const map = {}
@@ -430,7 +411,10 @@ function flattern(arr) {
 
   // 最大值
   Math.max(...[1, 2, 3, 4])
-  Math.max.apply(this, [1, 2, 3, 4])[1, 2, 3, 4].reduce((prev, cur) => {
+  
+  Math.max.apply(this, [1, 2, 3, 4])
+  
+  [1, 2, 3, 4].reduce((prev, cur) => {
     return Math.max(prev, cur)
   }, 0)
 
@@ -451,7 +435,10 @@ function flattern(arr) {
   }
 
   // 合并
-  [1, 2, 3, 4].concat([5, 6])[...[1, 2, 3, 4], ...[4, 5]]
+  [1, 2, 3, 4].concat([5, 6])
+  
+  [...[1, 2, 3, 4], ...[4, 5]]
+  
   let arrA = [1, 2],
     arrB = [3, 4]
   Array.prototype.push.apply(arrA, arrB)
@@ -571,7 +558,7 @@ function flattern(arr) {
 
   // 手写柯里化
 
-  function createCurry(fn, args) {
+  function createCurry(fn, ...args) {
     var len = fn.length
     var args = args || []
     return function () {
