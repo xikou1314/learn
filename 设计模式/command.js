@@ -8,7 +8,7 @@
       console.log('执行commond2' + info);
     },
     excute: function(commond, info) {
-      return manage[commond] && manage[name].apply(manage, [].slice.call(arguments, 1));
+      return manage[commond] && manage[commond].apply(manage, [].slice.call(arguments, 1));
     }
   }
 

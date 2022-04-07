@@ -1,6 +1,5 @@
-// 工厂模式
+// 工厂方法模式
 function Car(options) {
-
   this.doors = options.doors || 4;
   this.state = options.state || "brand new";
   this.color = options.color || "sliver";

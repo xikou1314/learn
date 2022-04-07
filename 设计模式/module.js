@@ -10,7 +10,7 @@ var myModule = {
     useCaching: true,
     language: "en"
   },
-
+  
   // 基本方法
   myMethod: function() {
     console.log("Where in the world is Paul Irish today?");
