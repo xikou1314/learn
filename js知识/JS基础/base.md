@@ -44,6 +44,15 @@
       console.log(c(1)(2, 3));
       console.log(c(1, 2)(3));
 
+      // 反柯里化
+
+      Function.prototype.uncurrying = function() {
+          let that = this
+          return function() {
+              return Function.prototype.call.apply(that, arguments)
+          }
+      }
+
       ```
 
 4. 函数组合

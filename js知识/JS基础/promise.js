@@ -63,8 +63,11 @@ Promise.prototype.then = function (onfulfilled, onrejected) {
     };
 
     let self = this;
+    // 返回result是一个promise
     let resultPromise = new Promise(function (resovle, reject) {
+        // 若当前的状态是resolved
         if (self.status === RESOVLED) {
+            // 下一个循环 
             setTimeout(() => {
                 try {
                     let val = onfulfilled(self.value);
@@ -74,7 +77,7 @@ Promise.prototype.then = function (onfulfilled, onrejected) {
                 }
             })
         }
-
+        // 若当前状态是拒绝
         if (self.status === REJECTED) {
             setTimeout(() => {
                 try {
@@ -118,8 +121,6 @@ Promise.prototype.then = function (onfulfilled, onrejected) {
 Promise.prototype.catch = function (errCallback) {
     return this.then(null, errCallback);
 }
-
-
 
 function nextPromise(promise, val, resolve, reject) {
     if (promise === val) {
